@@ -1,0 +1,2 @@
+# Godot Dynamic Weather
+Modular, dynamic weather and sky system for Godot 4.4 – customizable, extensible, and ready for real-time games.
