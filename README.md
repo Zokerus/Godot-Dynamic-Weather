@@ -19,7 +19,7 @@ Designed to simulate realistic day/night cycles, weather transitions, and atmosp
 
 ## 🗺️ Roadmap
 
-See the [GitHub Projects tab](https://github.com/USERNAME/REPO-NAME/projects) *(coming soon)* for detailed tasks and progress.
+See the [GitHub Projects tab](https://github.com/users/Zokerus/projects/6) for detailed tasks and progress.
 
 ---
 
