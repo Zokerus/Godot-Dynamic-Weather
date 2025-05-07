@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://giuaga5aq1fl" path="res://addons/godot_dynamic_weather/weather_manager.gd" id="1_6jc0s"]
 
-[node name="WeatherManager" type="Node"]
+[node name="WeatherManager" type="Node3D"]
 script = ExtResource("1_6jc0s")
