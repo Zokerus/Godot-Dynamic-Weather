@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwtkoleohjjms"]
+[gd_scene load_steps=7 format=3 uid="uid://bwtkoleohjjms"]
 
 [ext_resource type="PackedScene" uid="uid://dnkcx03rtb63e" path="res://addons/godot_dynamic_weather/weather_manager.tscn" id="1_d6po2"]
-[ext_resource type="PackedScene" uid="uid://b5gcv0psoy70" path="res://addons/godot_dynamic_weather/debug_clock.tscn" id="2_ytiva"]
+[ext_resource type="Script" uid="uid://b6jx8fhs1rlsa" path="res://demo/democontroller.gd" id="1_dar0o"]
+[ext_resource type="PackedScene" uid="uid://b5gcv0psoy70" path="res://addons/godot_dynamic_weather/debug_ui.tscn" id="2_ytiva"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d6po2"]
 sky_top_color = Color(0.290774, 0.406269, 0.836555, 1)
@@ -20,12 +21,13 @@ fog_enabled = true
 fog_aerial_perspective = 0.7
 
 [node name="Demo" type="Node3D"]
+script = ExtResource("1_dar0o")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dar0o")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.300341, 0.399744, 6.98934e-08, 0.799487, 0.600682, -0.5, 0.520206, -0.692376, 0, 0, 0)
+transform = Transform3D(-0.866025, -0.226956, -0.445523, 7.78977e-08, -0.891046, 0.453912, -0.5, 0.393099, 0.771669, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -38,7 +40,7 @@ size = Vector3(20, 1, 20)
 
 [node name="WeatherManager" parent="." node_paths=PackedStringArray("sun") instance=ExtResource("1_d6po2")]
 sun = NodePath("../DirectionalLight3D")
-time_of_day = 8.46125
+time_of_day = 16.2003
 
-[node name="DebugClock" parent="." node_paths=PackedStringArray("weather_manager") instance=ExtResource("2_ytiva")]
+[node name="DebugGUI" parent="." node_paths=PackedStringArray("weather_manager") instance=ExtResource("2_ytiva")]
 weather_manager = NodePath("../WeatherManager")

@@ -5,7 +5,7 @@ class_name WeatherManager
 @export var sun: DirectionalLight3D
 
 ## Debug-Option: Uhr einblenden
-@export var show_debug_clock: bool = true
+@export var show_debug_ui: bool = true
 
 ## Wettertypen (werden später genutzt für Übergänge, Effekte usw.)
 enum WeatherType { CLEAR, CLOUDY, RAIN, STORM, SNOW, FOG }
@@ -34,9 +34,9 @@ func _ready() -> void:
 		push_warning("WeatherManager: Sun (DirectionalLight3D) is not assigned.")
 	set_process(true)
 	# DebugClock-Sichtbarkeit beim Start steuern
-	var debug_clock := get_tree().current_scene.get_node_or_null("DebugClock")
-	if debug_clock:
-		debug_clock.visible = show_debug_clock
+	var debug_ui := get_tree().current_scene.get_node_or_null("DebugGUI")
+	if debug_ui:
+		debug_ui.visible = show_debug_ui
 
 func _process(delta: float) -> void:
 	_update_time(delta)
