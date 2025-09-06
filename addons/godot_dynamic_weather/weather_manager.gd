@@ -13,48 +13,73 @@ enum WeatherType { CLEAR, CLOUDY, RAIN, STORM, SNOW, FOG }
 ## Aktueller Wetterzustand
 var current_weather: WeatherType = WeatherType.CLEAR
 
+## Signale für externe Systeme (z. B. Debug-UI, Gameplay)
+signal time_changed(time: float)
+signal sunrise
+signal sunset
+
 ## Tageszeit (0.0 = Mitternacht, 12.0 = Mittag, 23.99 = fast Mitternacht)
-var _time_of_day := 12.0
 @export_range(0.0, 24.0, 0.01)
-var time_of_day: float:
+var time_of_day: float = 12.0:
 	get:
 		return _time_of_day
 	set(value):
-		_time_of_day = value
+		_time_of_day = fposmod(value, 24.0)
 		_update_sun_rotation()
+		emit_signal("time_changed", _time_of_day)
 
-## Geschwindigkeit, mit der der Tag vergeht (z. B. 60 = 1 Echtsekunde = 1 Minute im Spiel)
-@export var time_scale := 60.0
+var _time_of_day: float = 12.0
 
-## Innere Zeitvariable für laufende Simulation
-var _time_accumulator := 0.0
+## Soll die Zeit automatisch fortschreiten?
+@export var auto_advance: bool = true
+
+## Dauer eines Spieltags in Real-Sekunden (z. B. 600 = 10 Minuten)
+@export var seconds_per_day: float = 600.0
+
+## Innere Steuerung
+var _paused: bool = false
 
 func _ready() -> void:
 	if not sun:
 		push_warning("WeatherManager: Sun (DirectionalLight3D) is not assigned.")
 	set_process(true)
+
 	# DebugClock-Sichtbarkeit beim Start steuern
 	var debug_ui := get_tree().current_scene.get_node_or_null("DebugGUI")
 	if debug_ui:
 		debug_ui.visible = show_debug_ui
 
 func _process(delta: float) -> void:
-	_update_time(delta)
-	_update_sun_rotation()
+	if not _paused and auto_advance:
+		_update_time(delta)
 
 func _update_time(delta: float) -> void:
-	_time_accumulator += delta * time_scale
-	var time_increment = _time_accumulator / 60.0  # Minuten in Stunden umrechnen
-	_time_accumulator -= time_increment * 60.0
-	time_of_day = fmod(time_of_day + time_increment, 24.0)
+	if seconds_per_day <= 0.0:
+		return
+	# Anteil des Tages, der in dieser Frame vergangen ist
+	var fraction_of_day := delta / seconds_per_day
+	var hours_passed := fraction_of_day * 24.0
+	setTimeOfDay(time_of_day + hours_passed)
 
 func _update_sun_rotation() -> void:
 	if not sun:
 		return
-
 	# Tageszeit auf Winkel (0° = Mitternacht, 180° = Mittag)
-	var angle := (time_of_day / 24.0) * 360.0 + 90
+	var angle := (time_of_day / 24.0) * 360.0 + 90.0
 	sun.rotation_degrees.x = angle
+
+## Public API
+func setTimeOfDay(value: float) -> void:
+	time_of_day = value
+
+func setTimescale(day_length_seconds: float) -> void:
+	seconds_per_day = max(day_length_seconds, 0.1)
+
+func pause() -> void:
+	_paused = true
+
+func resume() -> void:
+	_paused = false
 
 ## Hilfsfunktion für DebugClock
 func get_time_hhmm() -> String:

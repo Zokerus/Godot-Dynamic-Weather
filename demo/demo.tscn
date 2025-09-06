@@ -27,7 +27,7 @@ script = ExtResource("1_dar0o")
 environment = SubResource("Environment_dar0o")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.226956, -0.445523, 7.78977e-08, -0.891046, 0.453912, -0.5, 0.393099, 0.771669, 0, 0, 0)
+transform = Transform3D(-0.866025, 0.13469, 0.481517, -8.41911e-08, 0.963033, -0.269381, -0.5, -0.23329, -0.834011, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -40,7 +40,7 @@ size = Vector3(20, 1, 20)
 
 [node name="WeatherManager" parent="." node_paths=PackedStringArray("sun") instance=ExtResource("1_d6po2")]
 sun = NodePath("../DirectionalLight3D")
-time_of_day = 16.2003
+time_of_day = 4.95817
 
 [node name="DebugGUI" parent="." node_paths=PackedStringArray("weather_manager") instance=ExtResource("2_ytiva")]
 weather_manager = NodePath("../WeatherManager")
