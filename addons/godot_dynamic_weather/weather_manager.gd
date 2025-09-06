@@ -2,7 +2,8 @@
 extends Node3D
 class_name WeatherManager
 
-@export var sun: DirectionalLight3D
+@export var sun_pivot: Node3D        # Parent-Node für Neigung
+@export var sun: DirectionalLight3D  # Das eigentliche Licht
 
 ## Debug-Option: Uhr einblenden
 @export var show_debug_ui: bool = true
@@ -39,10 +40,19 @@ var _time_of_day: float = 12.0
 ## Innere Steuerung
 var _paused: bool = false
 
+## Konfigurierbare Auf- und Untergangszeiten
+@export_range(0.0, 24.0, 0.1) var sunrise_hour: float = 6.0
+@export_range(0.0, 24.0, 0.1) var sunset_hour: float = 18.0
+@export_range(0.0, 90.0, 1.0) var max_altitude: float = 60.0
+
+var _was_daytime: bool = false
+
 func _ready() -> void:
 	if not sun:
 		push_warning("WeatherManager: Sun (DirectionalLight3D) is not assigned.")
 	set_process(true)
+	if sun_pivot:
+		sun_pivot.rotation_degrees.z = 90.0 - max_altitude
 
 	# DebugClock-Sichtbarkeit beim Start steuern
 	var debug_ui := get_tree().current_scene.get_node_or_null("DebugGUI")
@@ -60,14 +70,32 @@ func _update_time(delta: float) -> void:
 	var fraction_of_day := delta / seconds_per_day
 	var hours_passed := fraction_of_day * 24.0
 	setTimeOfDay(time_of_day + hours_passed)
-
+	_check_sun_events()
+	
 func _update_sun_rotation() -> void:
 	if not sun:
 		return
-	# Tageszeit auf Winkel (0° = Mitternacht, 180° = Mittag)
-	var angle := (time_of_day / 24.0) * 360.0 + 90.0
-	sun.rotation_degrees.x = angle
+		
+	var day_length = sunset_hour - sunrise_hour
+	if day_length <= 0.0:
+		return
 
+	if time_of_day < sunrise_hour or time_of_day >= sunset_hour:
+		# Nacht: 360°–540° → wrap auf 0°–180°
+		var night_length = (24.0 - sunset_hour) + sunrise_hour
+		var night_progress: float
+		if time_of_day >= sunset_hour:
+			night_progress = (time_of_day - sunset_hour) / night_length
+		else:
+			night_progress = (time_of_day + (24.0 - sunset_hour)) / night_length
+		var angle = lerp(360.0, 540.0, night_progress)
+		sun.rotation_degrees.x = fposmod(angle, 360.0)
+	else:
+		# Tag: 180° = Sunrise → 360° = Sunset
+		var progress = (time_of_day - sunrise_hour) / day_length
+		var angle = lerp(180.0, 360.0, progress)
+		sun.rotation_degrees.x = angle
+				
 ## Public API
 func setTimeOfDay(value: float) -> void:
 	time_of_day = value
@@ -87,3 +115,11 @@ func get_time_hhmm() -> String:
 	var hh := total_minutes / 60
 	var mm := total_minutes % 60
 	return "%02d:%02d" % [hh, mm]
+
+func _check_sun_events() -> void:
+	var is_daytime := time_of_day >= sunrise_hour and time_of_day < sunset_hour
+	if is_daytime and not _was_daytime:
+		emit_signal("sunrise")
+	elif not is_daytime and _was_daytime:
+		emit_signal("sunset")
+	_was_daytime = is_daytime
