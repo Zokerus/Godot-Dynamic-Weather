@@ -49,7 +49,7 @@ var _was_daytime: bool = false
 
 func _ready() -> void:
 	if not sun:
-		push_warning("WeatherManager: Sun (DirectionalLight3D) is not assigned.")
+		_auto_bind_sun()
 	set_process(true)
 	if sun_pivot:
 		sun_pivot.rotation_degrees.z = 90.0 - max_altitude
@@ -123,3 +123,15 @@ func _check_sun_events() -> void:
 	elif not is_daytime and _was_daytime:
 		emit_signal("sunset")
 	_was_daytime = is_daytime
+	
+func _auto_bind_sun() -> void:
+	# Suche zuerst nach einem Node in Gruppe "Sun"
+	var candidates = get_tree().get_nodes_in_group("Sun")
+	if candidates.size() > 0:
+		var node = candidates[0]
+		if node is DirectionalLight3D:
+			sun = node
+			print("WeatherManager: Auto-bound sun from group 'Sun'.")
+			return
+	# Wenn gar nichts gefunden wurde → Warnung
+	push_warning("WeatherManager: No DirectionalLight3D (Sun) found in scene.")
