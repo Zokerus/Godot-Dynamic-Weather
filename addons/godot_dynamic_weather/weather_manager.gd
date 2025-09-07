@@ -55,10 +55,12 @@ func _ready() -> void:
 		sun_pivot.rotation_degrees.z = 90.0 - max_altitude
 
 	# DebugClock-Sichtbarkeit beim Start steuern
-	var debug_ui := get_tree().current_scene.get_node_or_null("DebugGUI")
-	if debug_ui:
-		debug_ui.visible = show_debug_ui
-
+	var scene := get_tree().current_scene
+	if scene:
+		var debug_ui := scene.get_node_or_null("DebugGUI")
+		if debug_ui:
+			debug_ui.visible = show_debug_ui
+		
 func _process(delta: float) -> void:
 	if not _paused and auto_advance:
 		_update_time(delta)
