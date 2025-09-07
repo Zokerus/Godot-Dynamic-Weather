@@ -30,7 +30,7 @@ environment = SubResource("Environment_dar0o")
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SunPivot" groups=["Sun"]]
-transform = Transform3D(1, 0, 0, 0, 0.915236, 0.402919, 0, -0.402919, 0.915236, 0, 6.84079, 0)
+transform = Transform3D(1, 0, 0, 0, -0.345943, -0.938257, 0, 0.938257, -0.345943, 0, 6.84079, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -41,10 +41,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 size = Vector3(50, 1, 50)
 
-[node name="WeatherManager" parent="." node_paths=PackedStringArray("sun_pivot", "sun") instance=ExtResource("1_d6po2")]
+[node name="WeatherManager" parent="." node_paths=PackedStringArray("sun_pivot", "sun") groups=["WeatherManager"] instance=ExtResource("1_d6po2")]
 sun_pivot = NodePath("../SunPivot")
 sun = NodePath("../SunPivot/DirectionalLight3D")
-time_of_day = 16.4159
+time_of_day = 1.34929
 seconds_per_day = 10.0
 
 [node name="DebugGUI" parent="." node_paths=PackedStringArray("weather_manager") instance=ExtResource("2_ytiva")]

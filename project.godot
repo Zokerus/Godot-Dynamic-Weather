@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 enabled=PackedStringArray("res://addons/godot_dynamic_weather/plugin.cfg")
 
+[global_group]
+
+WeatherManager=""
+
 [input]
 
 toggle_debug_ui={

@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsh0nrx6mk8oc"]
+
+[ext_resource type="Script" uid="uid://bmcwilrqy11a2" path="res://addons/godot_dynamic_weather/ui/weather_dock.gd" id="1_eo3x2"]
+
+[node name="WeatherDock" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_eo3x2")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "🌤 Weather Manager"
+
+[node name="TimeSlider" type="HSlider" parent="."]
+layout_mode = 2
+max_value = 24.0
+step = 0.01
+
+[node name="TimeLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Time: 12:00"
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="BtnDawn" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Dawn"
+
+[node name="BtnNoon" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Noon"
+
+[node name="BtnDusk" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Dusk"
+
+[node name="BtnNight" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Night"
+
+[node name="ToggleAdvance" type="CheckBox" parent="."]
+layout_mode = 2
+text = "Auto Advance"
+
+[node name="TimeScale" type="SpinBox" parent="."]
+layout_mode = 2
+min_value = 10.0
+max_value = 86400.0
+step = 10.0
+value = 600.0
+suffix = "s/day"
