@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b5gcv0psoy70"]
 
-[ext_resource type="Script" uid="uid://dq80d2b2ajoav" path="res://addons/godot_dynamic_weather/debug_ui.gd" id="1_qu1dk"]
+[ext_resource type="Script" uid="uid://dq80d2b2ajoav" path="res://addons/godot_dynamic_weather/ui/debug_ui.gd" id="1_qu1dk"]
 
 [node name="DebugGUI" type="CanvasLayer"]
 layer = 100

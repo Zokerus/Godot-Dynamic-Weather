@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwtkoleohjjms"]
+[gd_scene load_steps=8 format=3 uid="uid://bwtkoleohjjms"]
 
 [ext_resource type="PackedScene" uid="uid://dnkcx03rtb63e" path="res://addons/godot_dynamic_weather/weather_manager.tscn" id="1_d6po2"]
 [ext_resource type="Script" uid="uid://b6jx8fhs1rlsa" path="res://demo/democontroller.gd" id="1_dar0o"]
-[ext_resource type="PackedScene" uid="uid://b5gcv0psoy70" path="res://addons/godot_dynamic_weather/debug_ui.tscn" id="2_ytiva"]
+[ext_resource type="PackedScene" uid="uid://b5gcv0psoy70" path="res://addons/godot_dynamic_weather/ui/debug_ui.tscn" id="2_ytiva"]
+[ext_resource type="PackedScene" uid="uid://c3smcjbt7k8yp" path="res://addons/godot_dynamic_weather/ui/WeatherOverlay.tscn" id="4_j5lb4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d6po2"]
 sky_top_color = Color(0.290774, 0.406269, 0.836555, 1)
@@ -30,7 +31,7 @@ environment = SubResource("Environment_dar0o")
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SunPivot" groups=["Sun"]]
-transform = Transform3D(1, 0, 0, 0, 0.847833, -0.530266, 0, 0.530266, 0.847833, 0, 6.84079, 0)
+transform = Transform3D(1, 0, 0, 0, 0.0478788, -0.998854, 0, 0.998854, 0.0478788, 0, 6.84079, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -44,12 +45,14 @@ size = Vector3(50, 1, 50)
 [node name="WeatherManager" parent="." node_paths=PackedStringArray("sun_pivot", "sun") groups=["WeatherManager"] instance=ExtResource("1_d6po2")]
 sun_pivot = NodePath("../SunPivot")
 sun = NodePath("../SunPivot/DirectionalLight3D")
-time_of_day = 20.1349
-auto_advance = false
+time_of_day = 23.817
 seconds_per_day = 10.0
 
 [node name="DebugGUI" parent="." node_paths=PackedStringArray("weather_manager") instance=ExtResource("2_ytiva")]
 weather_manager = NodePath("../WeatherManager")
+
+[node name="WeatherOverlay" parent="." instance=ExtResource("4_j5lb4")]
+visible = false
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

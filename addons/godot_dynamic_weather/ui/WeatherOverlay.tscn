@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3smcjbt7k8yp"]
+
+[ext_resource type="Script" uid="uid://diqceic4fgro0" path="res://addons/godot_dynamic_weather/ui/weather_overlay.gd" id="1_tw8rw"]
+
+[node name="WeatherOverlay" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_tw8rw")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = -1
+anchor_right = 0.3
+anchor_bottom = 0.15
+offset_left = 10.0
+offset_top = 10.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="TimeLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Time: --:--"
+
+[node name="DayLengthLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Day Length: -- s"
+
+[node name="AdvanceLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Auto Advance: --"
