@@ -137,3 +137,16 @@ func _auto_bind_sun() -> void:
 			return
 	# Wenn gar nichts gefunden wurde → Warnung
 	push_warning("WeatherManager: No DirectionalLight3D (Sun) found in scene.")
+	
+func jump_to(event: String) -> void:
+	match event:
+		"sunrise":
+			setTimeOfDay(sunrise_hour)
+		"noon":
+			setTimeOfDay(12)
+		"sunset":
+			setTimeOfDay(sunset_hour)
+		"midnight":
+			setTimeOfDay(0.0)
+		_:
+			push_warning("WeatherManager: Unknown jump event '%s'" % event)

@@ -31,7 +31,7 @@ environment = SubResource("Environment_dar0o")
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SunPivot" groups=["Sun"]]
-transform = Transform3D(1, 0, 0, 0, 0.56404, 0.825749, 0, -0.825749, 0.56404, 0, 6.84079, 0)
+transform = Transform3D(1, 0, 0, 0, -0.378969, -0.925411, 0, 0.925411, -0.378969, 0, 6.84079, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -45,14 +45,13 @@ size = Vector3(50, 1, 50)
 [node name="WeatherManager" parent="." node_paths=PackedStringArray("sun_pivot", "sun") groups=["WeatherManager"] instance=ExtResource("1_d6po2")]
 sun_pivot = NodePath("../SunPivot")
 sun = NodePath("../SunPivot/DirectionalLight3D")
-time_of_day = 14.289
+time_of_day = 1.48465
 seconds_per_day = 10.0
 
 [node name="DebugGUI" parent="." node_paths=PackedStringArray("weather_manager") instance=ExtResource("2_ytiva")]
 weather_manager = NodePath("../WeatherManager")
 
 [node name="WeatherOverlay" parent="." instance=ExtResource("4_j5lb4")]
-visible = false
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

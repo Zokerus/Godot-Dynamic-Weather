@@ -10,6 +10,12 @@ func _ready():
 	var candidates = get_tree().get_nodes_in_group("WeatherManager")
 	if candidates.size() > 0:
 		weather_manager = candidates[0]
+		
+	# Buttons verbinden
+	$Panel/VBox/Buttons/BtnSunrise.pressed.connect(func(): _jump("sunrise"))
+	$Panel/VBox/Buttons/BtnNoon.pressed.connect(func(): _jump("noon"))
+	$Panel/VBox/Buttons/BtnSunset.pressed.connect(func(): _jump("sunset"))
+	$Panel/VBox/Buttons/BtnMidnight.pressed.connect(func(): _jump("midnight"))
 
 func _process(delta: float) -> void:
 	if not weather_manager:
@@ -25,3 +31,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_weather_overlay"):
 		visible_overlay = !visible_overlay
 		visible = visible_overlay
+
+func _jump(event: String) -> void:
+	if weather_manager:
+		weather_manager.jump_to(event)
