@@ -47,6 +47,13 @@ var _paused: bool = false
 
 var _was_daytime: bool = false
 
+# Variablen für den Nachthimmel
+@export var star_intensity: float = 1.0       # Max. Helligkeit der Sterne
+@export var transition_duration: float = 30.0 # Dauer Übergang Tag↔Nacht in Minuten
+
+var star_visibility: float = 0.0
+var time_accumulator: float = 0.0
+
 func _ready() -> void:
 	if not sun:
 		_auto_bind_sun()
@@ -73,6 +80,7 @@ func _update_time(delta: float) -> void:
 	var hours_passed := fraction_of_day * 24.0
 	setTimeOfDay(time_of_day + hours_passed)
 	_check_sun_events()
+	_update_sky_transition()
 	
 func _update_sun_rotation() -> void:
 	if not sun:
@@ -97,7 +105,24 @@ func _update_sun_rotation() -> void:
 		var progress = (time_of_day - sunrise_hour) / day_length
 		var angle = lerp(180.0, 360.0, progress)
 		sun.rotation_degrees.x = angle
-				
+	
+
+func _update_sky_transition() -> void:
+	var current_time := time_of_day
+	var t := 0.0
+	
+	# Nacht = 18h → 6h
+	if current_time >= sunset_hour or current_time <= sunrise_hour:
+		if current_time >= sunset_hour:
+			# Sonnenuntergang → Sterne erscheinen
+			t = (current_time - sunset_hour) / (transition_duration / 60.0)
+		else:
+			# Sonnenaufgang → Sterne verschwinden
+			t = 1.0 - (current_time / (transition_duration / 60.0))
+		star_visibility = clamp(t, 0.0, 1.0)
+	else:
+		star_visibility = 0.0
+		
 ## Public API
 func setTimeOfDay(value: float) -> void:
 	time_of_day = value
